@@ -70,7 +70,7 @@ export default class App extends React.Component {
           <Text style={styles.title}>Timers</Text>
         </View>
         <ScrollView style={styles.timerList}>
-          <ToggleableTimerForm onFormSubmit={this.handleCreateFormSubmit} />
+          <ToggleableTimerForm onFormSubmit={this.handleCreateFormSubmit}/>
           {timers.map(({ title, project, id, elapsed, isRunning }) => (
             <EditableTimer
               key={id}
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   titleContainer: {
-    paddingTop: 35,
+    
     paddingBottom: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#D6D7DA',
