@@ -15,6 +15,7 @@ export default class CommentList extends React.Component {
 
   render() {
     const { items } = this.props;
+    
 
     return <ScrollView>{items.map(this.renderItem)}</ScrollView>;
   }
