@@ -13,6 +13,7 @@ export default class Timer extends Component {
     elapsed: PropTypes.number.isRequired,
     isRunning: PropTypes.bool.isRequired,
     onEditPress: PropTypes.func.isRequired,
+    onClonePress: PropTypes.func.isRequired,
     onRemovePress: PropTypes.func.isRequired,
     onStartPress: PropTypes.func.isRequired,
     onStopPress: PropTypes.func.isRequired,
@@ -59,7 +60,7 @@ export default class Timer extends Component {
   }
 
   render() {
-    const { elapsed, title, project, onEditPress } = this.props;
+    const { elapsed, title, project, onEditPress, onClonePress } = this.props;
     const elapsedString = millisecondsToHuman(elapsed);
 
     return (
@@ -68,7 +69,8 @@ export default class Timer extends Component {
         <Text>{project}</Text>
         <Text style={styles.elapsedTime}>{elapsedString}</Text>
         <View style={styles.buttonGroup}>
-          <TimerButton color="blue" small title="Edit" onPress={onEditPress} />
+        <TimerButton color="blue" small title="Edit" onPress={onEditPress} />
+        <TimerButton color="orange" small title="Clone" onPress={onClonePress} />
           <TimerButton
             color="blue"
             small

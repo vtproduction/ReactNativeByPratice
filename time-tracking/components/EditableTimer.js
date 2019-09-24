@@ -12,6 +12,7 @@ export default class EditableTimer extends React.Component {
     elapsed: PropTypes.number.isRequired,
     isRunning: PropTypes.bool.isRequired,
     onFormSubmit: PropTypes.func.isRequired,
+    onItemClone: PropTypes.func.isRequired,
     onRemovePress: PropTypes.func.isRequired,
     onStartPress: PropTypes.func.isRequired,
     onStopPress: PropTypes.func.isRequired,
@@ -36,6 +37,11 @@ export default class EditableTimer extends React.Component {
     this.closeForm();
   };
 
+  handleClone = () => {
+      const {title, project, elapsed, isRunning, onItemClone} = this.props;
+      onItemClone({title, project, elapsed, isRunning});
+  }
+
   closeForm = () => {
     this.setState({ editFormOpen: false });
   };
@@ -52,6 +58,7 @@ export default class EditableTimer extends React.Component {
       elapsed,
       isRunning,
       onRemovePress,
+      onItemClone,
       onStartPress,
       onStopPress,
     } = this.props;
@@ -77,6 +84,7 @@ export default class EditableTimer extends React.Component {
         elapsed={elapsed}
         isRunning={isRunning}
         onEditPress={this.handleEditPress}
+        onClonePress={this.handleClone}
         onRemovePress={onRemovePress}
         onStartPress={onStartPress}
         onStopPress={onStopPress}

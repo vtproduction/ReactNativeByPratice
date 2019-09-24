@@ -17,7 +17,7 @@ export default class App extends React.Component {
   state = {
     timers: [
       {
-        title: 'Mow the lawn',
+        title: 'Mow the lawn 2',
         project: 'House Chores',
         id: uuidv4(),
         elapsed: 5460494,
@@ -72,6 +72,7 @@ export default class App extends React.Component {
   };
 
   handleFormSubmit = attrs => {
+    console.log(attrs)
     const { timers } = this.state;
 
     this.setState({
@@ -91,6 +92,23 @@ export default class App extends React.Component {
     });
   };
 
+  handleFormClone = attrs => {
+    console.log(attrs)
+    const { timers } = this.state;
+    const {elapsed, isRunning, project, title} = attrs;
+
+    const newItemAtTop = {
+        title,
+        project,
+        id: uuidv4(),
+        elapsed,
+        isRunning,
+      }
+    this.setState({
+      timers: [newItemAtTop,...timers]
+    });
+  }
+
   handleRemovePress = timerId => {
     this.setState({
       timers: this.state.timers.filter(t => t.id !== timerId),
@@ -98,6 +116,8 @@ export default class App extends React.Component {
   };
 
   toggleTimer = timerId => {
+      console.log("toggleTimer: " + timerId);
+      
     this.setState(prevState => {
       const { timers } = prevState;
 
@@ -128,21 +148,21 @@ export default class App extends React.Component {
         </View>
         <KeyboardAvoidingView
           behavior="padding"
-          style={styles.timerListContainer}
-        >
+          style={styles.timerListContainer}>
           <ScrollView contentContainerStyle={styles.timerList}>
             <ToggleableTimerForm onFormSubmit={this.handleCreateFormSubmit} />
-            {timers.map(({ title, project, id, elapsed, isRunning }) => (
+            {timers.map((data) => (
               <EditableTimer
-                key={id}
-                id={id}
-                title={title}
-                project={project}
-                elapsed={elapsed}
-                isRunning={isRunning}
+                key={data.id}
+                id={data.id}
+                title={data.title}
+                project={data.project}
+                elapsed={data.elapsed}
+                isRunning={data.isRunning}
                 onFormSubmit={this.handleFormSubmit}
                 onRemovePress={this.handleRemovePress}
                 onStartPress={this.toggleTimer}
+                onItemClone={this.handleFormClone}
                 onStopPress={this.toggleTimer}
               />
             ))}
