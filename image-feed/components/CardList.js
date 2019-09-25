@@ -19,11 +19,12 @@ export default class CardList extends React.Component {
       PropTypes.arrayOf(PropTypes.string),
     ).isRequired,
     onPressComments: PropTypes.func.isRequired,
+    onPressImage: PropTypes.func.isRequired,
   };
 
 
   renderItem = ({ item: { id, author } }) => {
-    const { commentsForItem, onPressComments } = this.props; 
+    const { commentsForItem, onPressComments, onPressImage } = this.props; 
     const comments = commentsForItem[id];
 
     return(
@@ -34,6 +35,7 @@ export default class CardList extends React.Component {
         }}
         linkText={`${comments ? comments.length : 0} Comments`}
         onPressLinkText={()=> onPressComments(id)}
+        onImageClick={() => onPressImage(getImageFromId(id))}
       />
     )
   }; 

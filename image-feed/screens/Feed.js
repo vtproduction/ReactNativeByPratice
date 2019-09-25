@@ -17,6 +17,7 @@ export default class Feed extends React.Component {
       PropTypes.arrayOf(PropTypes.string)
     ).isRequired,
     onPressComments: PropTypes.func.isRequired,
+    onPressImage: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -32,7 +33,7 @@ export default class Feed extends React.Component {
   async componentDidMount() {
     try {
       const items = await fetchImages();
-
+      
       this.setState({
         loading: false,
         items,
@@ -46,7 +47,7 @@ export default class Feed extends React.Component {
   }
 
   render() {
-    const { commentsForItem, onPressComments, style } = this.props;
+    const { commentsForItem, onPressComments, style, onPressImage } = this.props;
     const { loading, error, items } = this.state;
 
     if (loading) {
@@ -54,12 +55,14 @@ export default class Feed extends React.Component {
     }
 
     if (error) {
-      return <Text>Error...</Text>;
+      return <SafeAreaView style={style}>
+        <Text>Error!</Text>
+      </SafeAreaView>;
     }
 
     return (
       <SafeAreaView style={style}>
-        <CardList items={items} commentsForItem={commentsForItem} onPressComments={onPressComments}/>
+        <CardList items={items} commentsForItem={commentsForItem} onPressComments={onPressComments} onPressImage={onPressImage}/>
       </SafeAreaView>
     );
   }

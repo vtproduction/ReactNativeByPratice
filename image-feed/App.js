@@ -1,8 +1,9 @@
 import React from 'react';
-import { AsyncStorage, Modal, StyleSheet, View, Platform } from 'react-native';
+import { AsyncStorage, Modal, StyleSheet, View, Text,Platform } from 'react-native';
 import Constants from 'expo-constants';
 import Feed from './screens/Feed';
 import Comments from './screens/Comments';
+import ImageDetail from './screens/ImageDetail';
 
 export default class App extends React.Component {
 
@@ -10,7 +11,9 @@ export default class App extends React.Component {
   state = {
     commentsForItem: {}, 
     showModal: false, 
+    showImageModal: false,
     selectedItemId: null,
+    selectedImage: ""
   };
 
   openCommentScreen = id => {
@@ -20,11 +23,61 @@ export default class App extends React.Component {
     })
   }
 
+  openImageScreen = url => {
+    console.log(url)
+    this.setState({
+      selectedImage: url,
+      showImageModal: true
+    })
+  }
+
   closeCommentScreen = () => {
     this.setState({
       showModal: false,
       selectedItemId: false
     })
+  }
+
+  closeImageScreen = () => {
+    this.setState({
+      showImageModal: false,
+      selectedItemId: false
+    })
+  }
+
+  onDeleteComment = async (item, index) => {
+    console.log(item);
+    console.log(index);
+
+    const { selectedItemId, commentsForItem } = this.state;
+    const comments = commentsForItem[selectedItemId] || [];
+    if (comments.length > index) {
+      comments.splice(index, 1)
+    }
+
+    const updated = {
+      ...commentsForItem,
+      [selectedItemId]: [...comments],
+    };
+
+    this.setState({
+      commentsForItem: updated,
+    });
+
+    try {
+      await AsyncStorage.setItem(
+        ASYNC_STORAGE_COMMENTS_KEY,
+        JSON.stringify(updated)
+      )
+    } catch (e) {
+      console.log(
+        'Failed to delete comment',
+        text,
+        'for',
+        selectedItemId,
+      );
+    }
+
   }
 
   onSubmitComment = async text => {
@@ -67,23 +120,35 @@ export default class App extends React.Component {
 
 
   render(){
-    const {commentsForItem, showModal, selectedItemId} = this.state;
+    const {commentsForItem, showModal, showImageModal, selectedItemId, selectedImage} = this.state;
 
     return (
       <View style={styles.container}>
         <Feed 
           style={styles.feed} 
           commentsForItem={commentsForItem} 
-          onPressComments={this.openCommentScreen}/>
+          onPressComments={this.openCommentScreen}
+          onPressImage={this.openImageScreen}/>
         <Modal
           visible={showModal} animationType="slide" onRequestClose={this.closeCommentScreen}>
           <Comments
             style={styles.comments}
             comments={commentsForItem[selectedItemId] || []}
             onClose={this.closeCommentScreen}
-            onSubmitComment={this.onSubmitComment}>
+            onSubmitComment={this.onSubmitComment}
+            onDeleteComment={this.onDeleteComment}>
           </Comments>
         </Modal>
+        <Modal
+          visible={showImageModal} animationType="slide" onRequestClose={this.closeImageScreen}>
+          <ImageDetail
+            style={styles.comments}
+            imageSource={selectedImage}
+            onClose={this.closeImageScreen}>
+          </ImageDetail>
+        </Modal>
+        
+        
       </View>
       
     );

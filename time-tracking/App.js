@@ -98,7 +98,7 @@ export default class App extends React.Component {
     const {elapsed, isRunning, project, title} = attrs;
 
     const newItemAtTop = {
-        title,
+        title: uuidv4(),
         project,
         id: uuidv4(),
         elapsed,

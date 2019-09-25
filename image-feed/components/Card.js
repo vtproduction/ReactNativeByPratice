@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, Image, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -8,6 +8,7 @@ export default class Card extends React.Component {
   static propTypes = {
     fullname: PropTypes.string.isRequired,
     image: Image.propTypes.source.isRequired,
+    onImageClick: PropTypes.func.isRequired
   };
 
   state = {
@@ -17,6 +18,11 @@ export default class Card extends React.Component {
   handleLoad = () => {
     this.setState({ loading: false });
   };
+
+  handleImageClick = () =>{
+    const {image, onImageClick} = this.props
+    onImageClick(image.url)
+  }
 
   render() {
     const { fullname, image, linkText, onPressLinkText } = this.props;
@@ -33,11 +39,13 @@ export default class Card extends React.Component {
           {loading && (
             <ActivityIndicator style={StyleSheet.absoluteFill} size={'large'} />
           )}
-          <Image
-            style={StyleSheet.absoluteFill}
-            source={image}
-            onLoad={this.handleLoad}
-          />
+          <TouchableOpacity style={StyleSheet.absoluteFill} onPress={this.handleImageClick}>
+            <Image
+              style={StyleSheet.absoluteFill}
+              source={image}
+              onLoad={this.handleLoad}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );

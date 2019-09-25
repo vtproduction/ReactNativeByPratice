@@ -11,6 +11,7 @@ export default function Comments({
   comments,
   onClose,
   onSubmitComment,
+  onDeleteComment
 }) {
   return (
     <SafeAreaView style={style}>
@@ -20,7 +21,7 @@ export default function Comments({
         onPressLeftText={onClose}
       />
       <CommentInput placeholder="Leave a comment" onSubmit={onSubmitComment} />
-      <CommentList items={comments} />
+      <CommentList items={comments} onDeleteComment={onDeleteComment}/>
     </SafeAreaView>
   );
 }
@@ -30,6 +31,7 @@ Comments.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.string).isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmitComment: PropTypes.func.isRequired,
+  onDeleteComment: PropTypes.func.isRequired,
 };
 
 Comments.defaultProps = {
