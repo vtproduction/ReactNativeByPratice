@@ -1,5 +1,5 @@
 import { CameraRoll, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { Permissions } from 'expo';
+import * as Permissions  from 'expo-permissions';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -41,7 +41,7 @@ export default class ImageGrid extends React.Component {
     this.loading = true;
 
     const results = await CameraRoll.getPhotos({
-      first: 20,
+      first: 10,
       after,
     });
 
