@@ -4,33 +4,31 @@ import { StyleSheet, View } from 'react-native';
 import ContactThumbnail from '../components/ContactThumbnail';
 import DetailListItem from '../components/DetailListItem';
 
+import { fetchRandomContact } from '../utils/api';
+
 import colors from '../utils/colors';
-import store from '../store';
 
 export default class Profile extends React.Component {
-  static navigationOptions = ({ navigation: { state: { params } } }) => {
-    const { id } = params;
-    const { name } = store
-      .getState()
-      .contacts.find(contact => contact.id === id);
-
+  static navigationOptions = ({
+    navigation: { state: { params } },
+  }) => {
+    const { contact: { name } } = params
     return {
       title: name.split(' ')[0],
       headerTintColor: 'white',
       headerStyle: {
         backgroundColor: colors.blue,
       },
-    };
-  };
-
-  state = store.getState();
+    }
+  }
 
   render() {
-    const { navigation: { state: { params } } } = this.props;
-    const { id } = params;
+    console.log(this.props)
+    const { navigation: { state: { params } } } = this.props
+    const { contact } = params
     const {
       avatar, name, email, phone, cell,
-    } = this.state.contacts.find(contact => contact.id === id);
+    } = contact;
 
     return (
       <View style={styles.container}>

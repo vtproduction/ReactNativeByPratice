@@ -1,41 +1,23 @@
 {
-  "name": "contact-list",
-  "version": "0.1.0",
-  "private": true,
-  "devDependencies": {
-    "babel-eslint": "^8.0.2",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-preset-expo": "^4.0.0",
-    "eslint": "^4.11.0",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.3.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.5.1",
-    "jest-expo": "~27.0.0",
-    "prettier": "1.8.2",
-    "react-native-scripts": "1.14.0",
-    "react-test-renderer": "16.3.1"
-  },
-  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "react-native-scripts start",
-    "eject": "react-native-scripts eject",
-    "android": "react-native-scripts android",
-    "ios": "react-native-scripts ios",
-    "test": "node node_modules/jest/bin/jest.js --watch",
-    "prettier": "prettier \"**/*.js\" --write",
-    "eslint-all": "eslint \"**/*.js\"",
-    "eslint": "eslint \"**/*[!0-9].js\""
-  },
-  "jest": {
-    "preset": "jest-expo"
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject"
   },
   "dependencies": {
-    "expo": "^27.0.1",
-    "prop-types": "15.6.0",
-    "react": "16.3.1",
-    "react-native": "~0.55.2",
+    "expo": "^34.0.1",
+    "react": "16.8.3",
+    "react-dom": "^16.8.6",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-34.0.0.tar.gz",
+    "react-native-web": "^0.11.4",
     "react-navigation": "1.5.11",
-    "uuid": "3.1.0"
-  }
+    "uuid-v4": "^0.1.0"
+  },
+  "devDependencies": {
+    "babel-preset-expo": "^6.0.0"
+  },
+  "private": true
 }

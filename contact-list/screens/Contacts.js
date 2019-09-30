@@ -5,20 +5,19 @@ import {
   View,
   FlatList,
   ActivityIndicator,
-  Linking,
 } from 'react-native';
-
+import { MaterialIcons } from '@expo/vector-icons';
+import colors from '../utils/colors';
 import ContactListItem from '../components/ContactListItem';
-
+import store from '../store'
 import { fetchContacts } from '../utils/api';
-import getURLParams from '../utils/getURLParams';
-import store from '../store';
 
 const keyExtractor = ({ phone }) => phone;
 
 export default class Contacts extends React.Component {
-  static navigationOptions = () => ({
+  static navigationOptions = ({navigation: {navigate}}) => ({
     title: 'Contacts',
+    
   });
 
   state = {
@@ -30,62 +29,24 @@ export default class Contacts extends React.Component {
   async componentDidMount() {
     this.unsubscribe = store.onChange(() =>
       this.setState({
-        contacts: store.getState().contacts,
-        loading: store.getState().isFetchingContacts,
-        error: store.getState().error,
+        contacts: store.getState().contacts, loading: store.getState().isFetchingContacts, error: store.getState().error,
       }));
-
-    const contacts = await fetchContacts();
-
-    store.setState({ contacts, isFetchingContacts: false });
-
-    Linking.addEventListener('url', this.handleOpenUrl);
-
-    const url = await Linking.getInitialURL();
-    this.handleOpenUrl({ url });
+      const contacts = await fetchContacts(); 
+      store.setState({ contacts, isFetchingContacts: false });
   }
 
   componentWillUnmount() {
-    Linking.removeEventListener('url', this.handleOpenUrl);
     this.unsubscribe();
   }
 
-  handleOpenUrl(event) {
-    const { navigation: { navigate } } = this.props;
-    const { url } = event;
-    const params = getURLParams(url);
-
-    if (params.name) {
-      const queriedContact = store
-        .getState()
-        .contacts.find(contact =>
-          contact.name.split(' ')[0].toLowerCase() ===
-            params.name.toLowerCase());
-
-      if (queriedContact) {
-        navigate('Profile', { id: queriedContact.id });
-      }
-    }
-  }
-
   renderContact = ({ item }) => {
-    const { navigation: { navigate } } = this.props;
-    const {
-      id, name, avatar, phone,
-    } = item;
-
-    return (
-      <ContactListItem
-        name={name}
-        avatar={avatar}
-        phone={phone}
-        onPress={() => navigate('Profile', { id })}
-      />
-    );
+    const { name, avatar, phone } = item;
+    const { navigation: {navigate}} = this.props
+    return <ContactListItem name={name} avatar={avatar} phone={phone} onPress={() => navigate('Profile', { contact: item })}/>;
   };
 
   render() {
-    const { contacts, loading, error } = this.state;
+    const { loading, contacts, error } = this.state;
 
     const contactsSorted = contacts.sort((a, b) =>
       a.name.localeCompare(b.name));
