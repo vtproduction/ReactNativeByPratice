@@ -52,8 +52,54 @@ export default class Game extends React.Component {
     }
   };
 
+  constructor(props) {
+    super(props);
+    const { image } = props;
+    this.state = {
+      transitionState: image ? State.WillTransitionIn : State.LoadingImage, 
+      moves: 0,
+      elapsed: 0, 
+      previousMove: null, 
+      image: null,
+    };
+    configureTransition();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { image } = nextProps;
+    const { transitionState } = this.state;
+    if (image && transitionState === State.LoadingImage) {
+      configureTransition(() => {
+        this.setState({ transitionState: State.WillTransitionIn });
+      });
+    }
+  }
+
   render() {
-    return null;
+    const { puzzle, puzzle: { size }, image } = this.props; 
+    const {
+      transitionState,
+      moves,
+      elapsed,
+      previousMove,
+    } = this.state
+    return (
+      <View style={styles.container}>
+        {transitionState === State.LoadingImage && (
+          <ActivityIndicator
+            size={'large'}
+            color={'rgba(255,255,255,0.5)'}/>
+        )}
+        {transitionState !== State.LoadingImage && (
+          <View style={styles.centered}>
+            <View style={styles.header}>
+              <Preview image={image} boardSize={size} />
+              <Stats moves={moves} time={elapsed} />
+            </View>
+          </View>
+        )}
+      </View>
+    );
   }
 }
 
