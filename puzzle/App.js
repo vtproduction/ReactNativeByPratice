@@ -49,8 +49,11 @@ export default class App extends React.Component {
 
   handleStartGame = () => {
     const { size } = this.state;
-
-    this.setState({ puzzle: createPuzzle(size) });
+    const puzzle = createPuzzle(size)
+    console.log('======handleStartGame======');
+    console.log(puzzle);
+    console.log('====================================');
+    this.setState({ puzzle: puzzle });
   };
 
   handleGameChange = puzzle => {
