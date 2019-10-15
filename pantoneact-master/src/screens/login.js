@@ -9,98 +9,123 @@ import Styles, { COLOR } from "../config/styles";
 
 import { bindActionCreators } from "redux";
 import * as authActions from "../actions/authenticate";
+import * as counterActions from "../actions/counter";
 import { connect } from "react-redux";
 
 class Login extends Component {
-    static navigationOptions = ({ navigation }) => ({
-        title: "Sign in",
-        headerTintColor: COLOR.LIGHT,
-        headerStyle: {
-            borderBottomWidth: 0,
-            backgroundColor: COLOR.PANTOME
-        }
-    }); // navigationOptions
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: "",
-            password: ""
-        };
-    }
-
-    renderError(error) {
-        if (error) {
-            return (
-                <View
-                    style={{
-                        height: 40,
-                        padding: 8,
-                        borderWidth: 1,
-                        borderColor: '#ffffff',
-                        backgroundColor: COLOR.DANGER
-                    }}
-                >
-                    <Text style={{ color: '#ffffff' }}>{error}</Text>
-                </View>
-            );
-        } else {
-            return null;
-        }
-    }
-
-    // handleLoginRequest = () => {
-    //     this.props.actions.login(this.state.email, this.state.password)
-    //     if (this.props.state.isAuth) this.props
-    // }
-
-    render() {
-        return (
-            <View style={Styles.container}>
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                    <View>
-                        <StatusBar
-                            backgroundColor={COLOR.DARK}
-                            barStyle="light-content"
-                        />
-                        <Card>
-                            {this.renderError(this.props.state.authError)}
-
-                            <View style={{ height: 8 }} />
-
-                            <CustomInput
-                                icon="envelope"
-                                value={this.state.email}
-                                placeholder="Email"
-                                onChangeText={v => this.setState({ email: v })}
-                            />
-                            <View style={{ height: 8 }} />
-                            <CustomInput
-                                icon="lock"
-                                value={this.state.password}
-                                placeholder="Password"
-                                secureTextEntry={true}
-                                onChangeText={v => this.setState({ password: v })}
-                            />
-                            <View style={{ height: 16 }} />
-                            <CustomButton
-                                onPress={() => {
-                                    this.props.actions.login(this.state.email, this.state.password, this.props.navigation.navigate)
-                                }}
-                                title={"SIGN IN"}
-                            />
-                        </Card>
-                    </View>
-                </TouchableWithoutFeedback>
-                <CustomLoading loading={this.props.state.requestingAuth} />
-            </View>
-        );
-    }
-}
-
+	static navigationOptions = ({ navigation }) => ({
+		title: "Sign in",
+		headerTintColor: COLOR.LIGHT,
+		headerStyle: {
+			borderBottomWidth: 0,
+			backgroundColor: COLOR.PANTOME
+		}
+	}); // navigationOptions
+	
+	constructor(props) {
+		super(props);
+		this.state = {
+			email: "test123@nomail.com",
+			password: "123456"
+		};
+	}
+	
+	renderError(error) {
+		if (error) {
+			return (
+				<View
+					style={{
+						height: 40,
+						padding: 8,
+						borderWidth: 1,
+						borderColor: '#ffffff',
+						backgroundColor: COLOR.DANGER
+					}}>
+				<Text style={{ color: '#ffffff' }}>{error}</Text>
+				</View>
+				);
+			} else {
+				return null;
+			}
+		}
+		
+		// handleLoginRequest = () => {
+		//     this.props.actions.login(this.state.email, this.state.password)
+		//     if (this.props.state.isAuth) this.props
+		// }
+		
+		render() {
+			console.log('====================================');
+			console.log(this.props);
+			console.log(this.state);
+			console.log('====================================');
+			return (
+				<View style={Styles.container}>
+					<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+						<View>
+							<StatusBar
+								backgroundColor={COLOR.DARK}
+								barStyle="light-content"/>
+							<Card>
+								{this.renderError(this.props.state.authError)}
+								<View style={{ height: 8 }} />
+								<CustomInput
+									icon="envelope"
+									value={this.state.email}
+									placeholder="Email"
+									onChangeText={v => this.setState({ email: v })} />
+								<View style={{ height: 8 }} />
+								<CustomInput
+									icon="lock"
+									value={this.state.password}
+									placeholder="Password"
+									secureTextEntry={true}
+									onChangeText={v => this.setState({ password: v })} />
+								<View style={{ height: 16 }} />
+								<CustomButton
+									onPress={() => {
+										this.props.actions.login(this.state.email, this.state.password, this.props.navigation.navigate)
+									}}
+									title={"SIGN IN"} />
+							</Card>
+							<Card>
+								<Text>{this.props.counterState.value}</Text>
+								<CustomButton
+									onPress={() => {
+										this.props.actions.increaseNum()
+									}}
+									title={"INCREASE"} />
+								<View style={{ height: 8 }} />
+								<CustomButton
+									onPress={() => {
+										this.props.actions.decreaseNum()
+									}}
+									title={"DECREASE"} />
+							</Card>
+							<Card>
+								
+								<CustomButton
+									onPress={() => {
+										this.props.navigation.navigate('DummyScreen',{
+											one: 'one', two: 'two'
+										})
+									}}
+									title={"GO DUMMY"} />
+							</Card>
+						</View>
+					</TouchableWithoutFeedback>
+					<CustomLoading loading={this.props.state.requestingAuth} />
+				</View>
+				);
+			}
+		}
+		
 export default connect(
-    state => ({ state: state.authenticate }),
-    dispatch => ({
-        actions: bindActionCreators(authActions, dispatch)
-    })
+	state => ({ 
+		state: state.authenticate,
+		counterState: state.counterAction
+	 }),
+	dispatch => ({
+		actions: bindActionCreators(Object.assign({}, authActions, counterActions), dispatch)
+	})
 )(Login);

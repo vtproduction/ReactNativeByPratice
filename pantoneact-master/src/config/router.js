@@ -12,15 +12,18 @@ import { COLOR } from './styles'
 import Home from "../screens/home";
 import Login from "../screens/login";
 import Splash from '../screens/splash'
+import Dummy from "../screens/dummy";
 
 import DrawerComponent from "../components/drawer"
 import DrawerHeader from '../components/header';
 
 const UnauthenticatedScreens = createStackNavigator(
 	{ // Screens
-		Login: { screen: Login }
-	}
+		Login: { screen: Login },
+		DummyScreen: { screen: Dummy}
+	},
 );
+
 
 
 const AuthenticatedInitialScreens = createStackNavigator(
