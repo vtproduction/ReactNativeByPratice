@@ -30,7 +30,7 @@ class Splash extends Component {
 				]}>
 			<StatusBar backgroundColor={COLOR.PANTOME} barStyle="light-content" />
 			<Text style={{ color: COLOR.PANTOME, fontSize: 36, fontWeight: "bold" }}>
-				Pantoneact
+				SAMPLE APP
 			</Text>
 			</View>
 			)

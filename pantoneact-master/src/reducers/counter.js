@@ -1,8 +1,10 @@
 import * as types from "../config/action-types/count";
 
-const initialState = {
+const initialState =  {
   value: 0
 }
+
+
 
 export default function counterAction(state = initialState,
   action = {}) {

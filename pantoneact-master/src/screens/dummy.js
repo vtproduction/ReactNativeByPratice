@@ -13,6 +13,11 @@ export class Dummy extends Component {
        data: []
     };
   };
+
+  componentDidMount() {
+    this.generateData()
+  }
+  
   
 
   generateData = () => {
@@ -27,37 +32,17 @@ export class Dummy extends Component {
   }
 
   render() {
-    
     return (
-      <View style={styles.container}>
-        <View style={styles.view}>
-          {
-            this.state.data.map((value, index) => 
-              <AnimatedBar value={value} delay={DELAY * index} key={index}/>
-            )
-          }
+      <View style={{ flex: 1, backgroundColor: '#33495D', justifyContent: 'center' }}>
+        <View style={{flexDirection: 'row', flex: 1, justifyContent: 'center',transform: [{rotate: '180deg'}]}}>
+          <AnimatedBar/>
         </View>
       </View>
     )
   }
 }
 
-const styles = StyleSheet.create({
-  container:{
-    flex: 1,
-    backgroundColor: '#33495D',
-    justifyContent: 'center'
-  },
 
-  view: {
-    flexDirection: 'row',
-    flex: 1,
-    justifyContent: 'center',
-    transform: [{
-      rotate: '180deg'
-    }]
-  }
-})
 
 
 
