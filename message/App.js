@@ -176,17 +176,16 @@ export default class App extends React.Component {
 
     return (
       <View style={styles.content}>
-
         <MessageList
-          messages={messages} onPressMessage={this.handlePressMessage}
-        />
+          messages={messages} onPressMessage={this.handlePressMessage}/>
       </View>
     );
   }
   renderInputMethodEditor() {
     return (
-      <View style={styles.inputMethodEditor}><ImageGrid
-        onPressImage={this.handlePressImage}/></View>
+      <View style={styles.inputMethodEditor}>
+        <ImageGrid onPressImage={this.handlePressImage}/>
+      </View>
     );
   }
 
@@ -210,12 +209,14 @@ export default class App extends React.Component {
                   {...keyboardInfo}
                   inputMethod={inputMethod} onChangeInputMethod={this.handleChangeInputMethod} renderInputMethodEditor={
                     this.renderInputMethodEditor}>
-                  {this.renderToolbar()} </MessagingContainer>
+                  {this.renderToolbar()} 
+                </MessagingContainer>
               )}
             </KeyboardState>
           )}
         </MeasureLayout>
-        {this.renderFullscreenImage()} </View>
+        {this.renderFullscreenImage()} 
+      </View>
     );
   }
 }

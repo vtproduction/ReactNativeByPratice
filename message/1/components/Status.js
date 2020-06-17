@@ -74,7 +74,7 @@ export default class Status extends React.Component {
   }
 }
 
-const statusHeight = Platform.OS === 'ios' ? Constants.statusBarHeight : 0;
+const statusHeight = Platform.OS === 'ios' ? 24 : 48;
 
 const styles = StyleSheet.create({
   status: {
